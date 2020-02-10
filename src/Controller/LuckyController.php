@@ -21,16 +21,22 @@ class LuckyController extends AbstractController
     }
 
     /**
-     * @Route("/product/{product_id}", name="app_static_routed_path")
+     * @Route({
+     *     "en": "/product/{product_name}",
+     *     "nl": "/nlproduct/{product_name}"
+*     }, name="app_static_routed_path")
      */
-    public function number($product_id = 0)
+    public function number($product_id = 0, $product_name = '')
     {
         $number = $product_id;
 
-        return new Response(
-            '<html><body>Totally random number: ' . $number . '</body></html>'
-        );
-
+        if (!empty($product_name)) {
+            return new Response(
+                '<html><body>Totally random number: ' . $number . '</body></html>'
+            );
+        } else {
+            return $this->redirect($this->generateUrl('app_static_routed_path', ['product_name' => 'pants']));
+        }
     }
 
     /**
